@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Search Agent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f0f2f5;
+        }
+        .result-url {
+            word-break: break-all;
+            overflow-wrap: break-word;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-10">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl">
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-6">My AI Search Agent</h1>
+
+        <form action="/" method="GET" class="flex flex-col sm:flex-row gap-4 mb-8">
+            <input type="text" name="query" placeholder="Enter your search query..."
+                   class="flex-grow p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+                   value="{{ query }}">
+            <button type="submit"
+                    class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-300 ease-in-out text-lg font-semibold">
+                Search
+            </button>
+        </form>
+
+        {% if ai_response %}
+            <div class="bg-blue-50 p-5 rounded-lg shadow-sm border border-blue-200 mb-8">
+                <h2 class="text-2xl font-semibold text-blue-800 mb-3">AI's Answer:</h2>
+                <p class="text-gray-800 leading-relaxed whitespace-pre-wrap">{{ ai_response }}</p>
+            </div>
+        {% endif %}
+
+        <div id="results">
+            {% if results %}
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4">Search Results ({{ results|length }} found)</h2>
+                <div class="space-y-6">
+                    {% for result in results %}
+                        <div class="bg-gray-50 p-5 rounded-lg shadow-sm border border-gray-200">
+                            <h3 class="text-xl font-medium text-blue-700 hover:underline mb-2">
+                                <a href="{{ result.url }}" target="_blank" rel="noopener noreferrer" class="result-url">{{ result.url }}</a>
+                            </h3>
+                            <p class="text-sm text-green-700 mb-2 result-url">{{ result.url }}</p>
+                            <p class="text-gray-700 leading-relaxed">{{ result.snippet }}</p>
+                            <p class="text-xs text-gray-500 mt-2">Score: {{ result.score }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% elif query %}
+                <p class="text-center text-gray-600 text-lg">No results found for "{{ query }}".</p>
+            {% else %}
+                <p class="text-center text-gray-600 text-lg">Enter a query to start searching!</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
