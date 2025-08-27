@@ -1,4 +1,4 @@
-# AI Web Search Agent
+# AI Search Agent
 
 A simple AI-powered web search agent built with Flask and Gemini LLM. This project crawls a set of seed websites, builds a local search index, and uses Google Gemini to synthesize answers from the most relevant results.
 
